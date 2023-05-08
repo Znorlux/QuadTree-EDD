@@ -61,7 +61,7 @@ class QuadTree:
             self.pretty_print_tree(node.child3, linea + ("│   " if is_left else "    "), False)
 
         #Carpeta principal
-        print(linea + ("└── " if is_left else "┌── ") + str(node.value))
+        print(linea + ("└── " if is_left else "┌── ") + str(node.value.name))
 
         #Hijo 2 (izquierdo)
         if node.child2:
