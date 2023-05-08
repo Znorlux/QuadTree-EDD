@@ -48,28 +48,33 @@ class QuadTree:
         if nodes is not None:
             self.add_node(value, nodes)
 
-    def pretty_print_tree(self, node, linea="", is_left=False):
+    def pretty_print_tree(self, node, linea="", is_left=False, last_child=False):
         if self.root is None:
             print("Empty Tree")
             return
-        #Hijo 4 (derecho)
+
+        # Hijo 4 (derecho)
         if node.child4:
-            self.pretty_print_tree(node.child4, linea + ("│   " if is_left else "    "), False)
-
-        #Hijo 3 (derecho)
+            self.pretty_print_tree(node.child4, linea + ("│   " if is_left else "    "), False,
+                                   last_child=(not node.child3 and not node.child2 and not node.child1))
+        # Hijo 3 (derecho)
         if node.child3:
-            self.pretty_print_tree(node.child3, linea + ("│   " if is_left else "    "), False)
+            self.pretty_print_tree(node.child3, linea + ("│   " if is_left else "    "), False,
+                                   last_child=(not node.child2 and not node.child1))
+        print(linea + ("└── " if is_left else "┌── ") + str(node.value))
 
-        #Carpeta principal
-        print(linea + ("└── " if is_left else "┌── ") + str(node.value.name))
+        if last_child:
+            line = "    "
+        else:
+            line = "│   "
 
-        #Hijo 2 (izquierdo)
+        # Hijo 2 (izquierdo)
         if node.child2:
-            self.pretty_print_tree(node.child2, linea + ("    " if is_left else "│   "), True)
-
-        #Hijo 1 (izquierdo)
+            self.pretty_print_tree(node.child2, linea + (line if is_left else "│   "), True,
+                                   last_child=(not node.child1))
+        # Hijo 1 (izquierdo)
         if node.child1:
-            self.pretty_print_tree(node.child1, linea + ("    " if is_left else "│   "), True)
+            self.pretty_print_tree(node.child1, linea + (line if is_left else "│   "), True, last_child=True)
         
     def find_node_by_name(self, name, node=None):
         if node is None:
@@ -146,17 +151,18 @@ class Program:
         self.tree = tree
 
     def show_menu(self):
-        print("Bienvenido al gestor de carpetas con arbol cuaternario")
-        print("Tienes las siguientes opciones:")
-        print("1. Añadir una carpeta")
-        print("2. Añadir un archivo")
-        print("3. Editar el nombre una carpeta")
-        print("4. Modificar archivo una carpeta")
+        print("""
+Bienvenido al gestor de carpetas con arbol cuaternario
+Tienes las siguientes opciones:
+1. Añadir una carpeta
+2. Añadir un archivo
+3. Editar el nombre una carpeta
+4. Modificar archivo una carpeta""")
         self.get_menu_answer()
 
     def get_menu_answer(self):
         root = tree.root.value #Carpeta raiz
-        answer = input()
+        answer = input("Opcion: ")
         if answer == "1":
             current_folder = input("Ingrese el nombre de la carpeta en la que quiere añadir elementos: ")
             folder = root.find_node_by_name(current_folder)
@@ -178,6 +184,7 @@ class Program:
 
 
 tree = Folder("Raiz")#Folder hereda de QuadTree
+tree.pretty_print_tree(tree.root)
 tree.add_folder("test")
 tree.add_folder("test2")
 tree.add_folder("test3")
@@ -187,6 +194,5 @@ program = Program(tree)
 #Inicio del flujo
 program.show_menu()
 
-#tree.pretty_print_tree(tree.root)
 #tree.find_node_by_name("carpeta")
 
