@@ -1,3 +1,5 @@
+#HOLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+
 class QuadNode:
     def __init__(self, value):# Value es objeto de tipo File o Folder
         self.value = value
