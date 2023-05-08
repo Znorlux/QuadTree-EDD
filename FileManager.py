@@ -1,3 +1,5 @@
+#HOLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+
 class QuadNode:
     def __init__(self, value):# Value es objeto de tipo File o Folder
         self.value = value
@@ -46,24 +48,28 @@ class QuadTree:
         if nodes is not None:
             self.add_node(value, nodes)
 
-    def pretty_print_tree(self, node, prefix="", is_left=False):
-        if not node:
+    def pretty_print_tree(self, node, linea="", is_left=False):
+        if self.root is None:
             print("Empty Tree")
             return
-
+        #Hijo 4 (derecho)
         if node.child4:
-            self.pretty_print_tree(node.child4, prefix + ("   " if is_left else "│  "), False)
+            self.pretty_print_tree(node.child4, linea + ("│   " if is_left else "    "), False)
 
+        #Hijo 3 (derecho)
         if node.child3:
-            self.pretty_print_tree(node.child3, prefix + ("   " if is_left else "│  "), False)
+            self.pretty_print_tree(node.child3, linea + ("│   " if is_left else "    "), False)
 
-        print(prefix + ("└── " if is_left else "┌── ") + str(node.value.name))
+        #Carpeta principal
+        print(linea + ("└── " if is_left else "┌── ") + str(node.value))
 
+        #Hijo 2 (izquierdo)
         if node.child2:
-            self.pretty_print_tree(node.child2, prefix + ("│  " if is_left else "   "), True)
+            self.pretty_print_tree(node.child2, linea + ("    " if is_left else "│   "), True)
 
+        #Hijo 1 (izquierdo)
         if node.child1:
-            self.pretty_print_tree(node.child1, prefix + ("│  " if is_left else "   "), True)
+            self.pretty_print_tree(node.child1, linea + ("    " if is_left else "│   "), True)
         
     def find_node_by_name(self, name, node=None):
         if node is None:
