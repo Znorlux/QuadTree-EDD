@@ -57,7 +57,7 @@ class QuadTree:
         if node.child3:
             self.pretty_print_tree(node.child3, prefix + ("   " if is_left else "│  "), False)
 
-        print(prefix + ("└── " if is_left else "┌── ") + str(node.value))
+        print(prefix + ("└── " if is_left else "┌── ") + str(node.value.name))
 
         if node.child2:
             self.pretty_print_tree(node.child2, prefix + ("│  " if is_left else "   "), True)
@@ -73,9 +73,14 @@ class QuadTree:
         
         if isinstance(node.value, Folder) and node.value.name == name: #caso base
             current_folder = node.value
-            print("Estas en la carpeta con nombre:",current_folder.name)
-            print("")
-            current_folder.pretty_print_tree(current_folder.root)           
+            #print("Estas en la carpeta con nombre:",current_folder.name)
+            #print("")
+            #file = File("test",".xml","42")
+            #file2 = File("test2",".xml","41")
+            #current_folder.add_element(file)
+            #current_folder.add_element(file2)
+            #current_folder.pretty_print_tree(current_folder.root)
+            return current_folder           
             
         if node.child1:
             result = self.find_node_by_name(name, node.child1)
@@ -95,35 +100,87 @@ class QuadTree:
                 return result
         return None
     
-    def add_file(self,name, extension, size):
-        file = File(name,extension,size)
-        self.add_node(file)
-
-    def add_folder(self,name):
-        folder = Folder(name)
-        self.add_node(folder)
 
 class File:
     def __init__(self, name, extension, size):
         self.name = name
         self.extension = extension
         self.size = size
-
+    
 class Folder(QuadTree):
     def __init__(self, name):
         super().__init__()
         self.name = name
         self.root = QuadNode(self)
-    
-tree = QuadTree()
-tree.add_node(0)
-tree.add_node(1)
-tree.add_node(2)
-tree.add_node(3)
-tree.add_node(4)
+        self.amount = 0
 
-tree.add_folder("carpeta")
-tree.add_file("file1",".txt","43")
-tree.pretty_print_tree(tree.root)
-tree.find_node_by_name("carpeta")
+    def add_file(self,name, extension, size):
+        file = File(name,extension,size)
+        self.add_node(file)
+        self.amount += 1
+
+    def add_folder(self,name):
+        folder = Folder(name)
+        self.root.value.add_node(folder)
+        self.amount += 1
+
+    def is_full(self):
+        if(self.amount == 4):
+            return True
+        else:
+            return False
+    def duplicate_name(self, name):
+        element = self.find_node_by_name(name)
+        if element != None:
+            return True
+        else:
+            return False
+class Program:
+    def __init__(self,tree):
+        self.tree = tree
+
+    def show_menu(self):
+        print("Bienvenido al gestor de carpetas con arbol cuaternario")
+        print("Tienes las siguientes opciones:")
+        print("1. Añadir una carpeta")
+        print("2. Añadir un archivo")
+        print("3. Editar el nombre una carpeta")
+        print("4. Modificar archivo una carpeta")
+        self.get_menu_answer()
+
+    def get_menu_answer(self):
+        root = tree.root.value #Carpeta raiz
+        answer = input()
+        if answer == "1":
+            current_folder = input("Ingrese el nombre de la carpeta en la que quiere añadir elementos: ")
+            folder = root.find_node_by_name(current_folder)
+            if folder == None:
+                print("La carpeta no existe\n")
+            else:    
+                if folder.is_full() == True:
+                    print("La carpeta actual está llena\n")
+                else:
+                    folder_name = input("Ingrese el nombre de la nueva carpeta: ")
+                    if folder.duplicate_name(folder_name):#Verificamos que no exista una carpeta con ese mismo nombre
+                        print("El nombre ya existe, vuelve a intentarlo con otro\n")
+                    else:
+                        folder.add_folder(folder_name)
+                        folder.pretty_print_tree(folder.root)
+                        print()
+        self.show_menu()
+    
+
+
+tree = Folder("Raiz")#Folder hereda de QuadTree
+tree.add_folder("test")
+tree.add_folder("test2")
+tree.add_folder("test3")
+#tree.add_folder("Raiz")#Carpeta raiz
+
+program = Program(tree)
+#Inicio del flujo
+program.show_menu()
+
+#tree.pretty_print_tree(tree.root)
+#tree.find_node_by_name("carpeta")
 
