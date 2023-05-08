@@ -1,5 +1,3 @@
-#HOLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-
 class QuadNode:
     def __init__(self, value):# Value es objeto de tipo File o Folder
         self.value = value
@@ -13,6 +11,8 @@ class QuadNode:
     
     def is_file(self):
         return isinstance(self.value, File)
+
+
 class QuadTree:
     def __init__(self):
         self.root = None
@@ -110,14 +110,15 @@ class QuadTree:
             if result:
                 return result
         return None
-    
+
 
 class File:
     def __init__(self, name, extension, size):
         self.name = name
         self.extension = extension
         self.size = size
-    
+
+
 class Folder(QuadTree):
     def __init__(self, name):
         super().__init__()
@@ -140,12 +141,14 @@ class Folder(QuadTree):
             return True
         else:
             return False
+
     def duplicate_name(self, name):
         element = self.find_node_by_name(name)
         if element != None:
             return True
         else:
             return False
+
 class Program:
     def __init__(self,tree):
         self.tree = tree
