@@ -54,18 +54,19 @@ class QuadTree:
             return
 
         if node.child4:
-            self.pretty_print_tree(node.child4, prefix + ("   " if is_left else "│  "), False)
+            self.pretty_print_tree(node.child4, prefix + ("   │" if is_left else "   │"), False)
 
         if node.child3:
-            self.pretty_print_tree(node.child3, prefix + ("   " if is_left else "│  "), False)
+            self.pretty_print_tree(node.child3, prefix + ("   │" if is_left else "   │"), False)
 
-        print(prefix + ("└── " if is_left else "┌── ") + str(node.value))
+        # original │
+        print(prefix + ("   └── " if is_left else "   ┌── ") + str(node.value))
 
         if node.child2:
-            self.pretty_print_tree(node.child2, prefix + ("│  " if is_left else "   "), True)
+            self.pretty_print_tree(node.child2, prefix + ("   │" if is_left else "   │"), True)
 
         if node.child1:
-            self.pretty_print_tree(node.child1, prefix + ("│  " if is_left else "   "), True)
+            self.pretty_print_tree(node.child1, prefix + ("   │" if is_left else "   │"), True)
         
     def find_node_by_name(self, name, node=None):
         if node is None:
