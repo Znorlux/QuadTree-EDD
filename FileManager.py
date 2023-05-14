@@ -145,17 +145,18 @@ class Program:
 
     def show_menu(self):
         print("""
-Bienvenido al gestor de carpetas con arbol cuaternario
+MENU
 Tienes las siguientes opciones:
-1. Añadir una carpeta
-2. Añadir un archivo
-3. Editar el nombre una carpeta
-4. Modificar archivo de una carpeta
+1) Añadir una carpeta
+2) Añadir un archivo
+3) Editar el nombre una carpeta
+4) Modificar archivo de una carpeta
+5) Eliminar
     """)
         self.get_menu_answer()
 
     def get_menu_answer(self):
-        answer = input()
+        answer = input("opcion: ")
         #Añadir una carpeta
         if answer == "1":
             self.add_folder()
@@ -170,13 +171,21 @@ Tienes las siguientes opciones:
 
         elif answer == "4":
             self.edit_file()
+
+        elif answer == "5":
+            self.delete()
+
+        elif answer == "6":
+          print("chao")
+          return
+        
         self.show_menu()
-    
 
     def add_folder(self):
             root = tree.root.value #Carpeta raiz
             current_folder = input("Ingrese el nombre de la carpeta en la que quiere añadir elementos: ")
             folder = root.find_node_by_name(current_folder)
+
             if folder == None:
                 print("La carpeta no existe\n")
             elif isinstance(folder, File):
@@ -257,17 +266,21 @@ Tienes las siguientes opciones:
                 file.name = new_file_name
                 print("El nombre del archivo ha sido cambiado correctamente!")
                 folder.pretty_print_tree(folder.root)
-            
-tree = Folder("raiz")#Folder hereda de QuadTree
-tree.add_folder("test")
-tree.add_folder("test2")
-tree.add_file("file1","txt","42")
-#tree.add_folder("Raiz")#Carpeta raiz
+        
+    def delete(self):
+        pass
 
-program = Program(tree)
-#Inicio del flujo
-program.show_menu()
+if __name__ == "__main__":
+    print("ARCHIVE MANAGER")
+    print("------------------------------------------")
+    print()
+    Raiz = input("Nombre de su carpeta principal: ")
+    print("------------------------------------------")
+    print()
+    tree = Folder(Raiz)#Folder hereda de QuadTree
+    tree.pretty_print_tree(tree.root)# Imprimir en arbol
+    program = Program(tree)#Arbol del programa
+    #Inicio del flujo
+    program.show_menu()
 
-#tree.pretty_print_tree(tree.root)
-#tree.find_node_by_name("carpeta")
-
+    #tree.add_folder("test")# Prueba de añadir carpeta
