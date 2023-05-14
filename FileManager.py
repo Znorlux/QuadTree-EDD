@@ -1,4 +1,3 @@
-
 class QuadNode:
     def __init__(self, value):# Value es objeto de tipo File o Folder
         self.value = value
@@ -152,6 +151,7 @@ Tienes las siguientes opciones:
 3) Editar el nombre una carpeta
 4) Modificar archivo de una carpeta
 5) Eliminar
+6) Salir
     """)
         self.get_menu_answer()
 
