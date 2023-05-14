@@ -177,7 +177,7 @@ class Program:
     
 
 
-tree = Folder("Raiz")#Folder hereda de QuadTree
+tree = Folder("raiz")#Folder hereda de QuadTree
 tree.add_folder("test")
 tree.add_folder("test2")
 tree.add_folder("test3")
