@@ -1,0 +1,63 @@
+Práctica Árboles - Estructuras de datos
+
+
+Enunciado:
+En esta práctica crearán una aplicación de consola para gestionar carpetas y archivos
+teniendo en cuenta los siguientes requerimientos:
+
+    ● El sistema de carpetas se representará con un árbol cuaternario.
+              ○ El primer nodo del árbol es la carpeta raíz y existe desde el inicio del
+                   programa.
+              ○ Cada nodo del árbol, excepto el primero, podrá representar un archivo o una
+                   carpeta.
+              ○ Cada carpeta podrá almacenar a lo sumo 4 elementos de cualquier tipo, es
+                   decir, carpetas o archivos.
+              ○ Los archivos no podrán contener otros elementos, es decir, serán los nodo
+                   hoja del árbol.
+              ○ Cada carpeta tendrá los siguientes atributos: nombre y cantidad de
+                   elementos contenidos.
+              ○ Cada archivo tendrá los siguientes atributos: nombre, extensión y peso.
+
+    ● El usuario podrá crear carpetas
+              ○ Para crear una carpeta, el usuario deberá introducir vía consola el nombre de
+                   la carpeta madre en la que quiere alojar la nueva carpeta.
+                        ■ Si esta carpeta ya está llena (ya tiene 4 elementos) se le informará al
+                             usuario para que elija una nueva o cancele el proceso.
+                        ■ Si no está llena, creará la nueva carpeta como hija de la carpeta
+                             madre.
+
+    ● El usuario podrá crear archivos
+              ○ Para crear un archivo, el usuario deberá introducir vía consola el nombre del
+                   archivo, su extensión y peso, por ejemplo “archivo.txt 56”, indicando que el
+                   archivo tiene nombre “archivo”, extensión “txt” y peso 56. Además, deberá
+                   indicar el nombre de la carpeta madre donde quiere alojar el nuevo archivo.
+                        ■ Si la carpeta ya está llena (ya tiene 4 elementos) se le informará al
+                             usuario para que elija una nueva o cancele el proceso.
+                        ■ Si no está llena, creará el nuevo archivo como hijo de la carpeta
+                             madre.
+
+    ● El usuario podrá modificar el nombre de una carpeta siempre y cuando no haya una
+         carpeta con el mismo nombre en su mismo nivel. De otro modo, el sistema informará
+         al usuario.
+
+    ● El usuario podrá modificar cualquier atributo de un archivo. En esta operación se
+         debe verificar que después del cambio no existan archivos con el mismo nombre y
+         la misma extensión en la misma carpeta madre (nivel del árbol).
+
+    ● El sistema funcionará bajo un ciclo infinito mostrándole al usuario un menú con las
+         opciones: (i) Agregar carpeta; (ii) Agregar archivo; (iii) Modificar carpeta; (iv)
+         Modificar archivo; (v) Salir.
+
+    ● Después de cada operación, el sistema imprimirá todo el árbol de carpetas y
+         archivos.
+
+
+Entrega, sustentación y calificación:
+    ● Esta entrega la puede hacer de manera individual o con una pareja.
+    ● Entrega y sustentación: 16 y 17 de mayo
+    ● La sustentación será práctica y se enfocará en la adición o modificación de un
+         requisito al sistema planteado en la práctica.
+    ● Calificación:
+              ○ Implementación: 30%
+              ○ Buenas prácticas (modularización y código legible): 10%
+              ○ Sustentación: 60%
