@@ -72,33 +72,49 @@ class QuadTree:
     def find_node_by_name(self, name, node=None):
         if node is None:
             node = self.root
-        if node is None:
-            return None
+
+        if isinstance(node.value, Folder) and node.value.name == name:
+            return node.value
         
-        if isinstance(node.value, Folder) and node.value.name == name: #caso base
-            current_folder = node.value
-            return current_folder 
-                  
         if isinstance(node.value, File) and node.value.name == name:
-            current_file = node.value
-            return current_file
-        
+            return node.value
+
         if node.child1:
             result = self.find_node_by_name(name, node.child1)
             if result:
                 return result
+            elif isinstance(node.child1.value, Folder):
+                sub_result = self.find_node_by_name(name, node.child1.value.root)
+                if sub_result:
+                    return sub_result
+
         if node.child2:
             result = self.find_node_by_name(name, node.child2)
             if result:
                 return result
+            elif isinstance(node.child2.value, Folder):
+                sub_result = self.find_node_by_name(name, node.child2.value.root)
+                if sub_result:
+                    return sub_result
+
         if node.child3:
             result = self.find_node_by_name(name, node.child3)
             if result:
                 return result
+            elif isinstance(node.child3.value, Folder):
+                sub_result = self.find_node_by_name(name, node.child3.value.root)
+                if sub_result:
+                    return sub_result
+
         if node.child4:
             result = self.find_node_by_name(name, node.child4)
             if result:
                 return result
+            elif isinstance(node.child4.value, Folder):
+                sub_result = self.find_node_by_name(name, node.child4.value.root)
+                if sub_result:
+                    return sub_result
+
         return None
     
 
@@ -117,7 +133,7 @@ class Folder(QuadTree):
 
     def add_file(self,name, extension, size):
         file = File(name,extension,size)
-        self.add_node(file)
+        self.root.value.add_node(file)
         self.amount += 1
 
     def add_folder(self,name):
@@ -156,7 +172,7 @@ Tienes las siguientes opciones:
         self.get_menu_answer()
 
     def get_menu_answer(self):
-        answer = input("opcion: ")
+        answer = input("Opcion: ")
         #Añadir una carpeta
         if answer == "1":
             self.add_folder()
@@ -195,7 +211,7 @@ Tienes las siguientes opciones:
                     print("La carpeta actual está llena\n")
                 else:
                     folder_name = input("Ingrese el nombre de la nueva carpeta: ")
-                    if folder.duplicate_name(folder_name):#Verificamos que no exista una carpeta con ese mismo nombre
+                    if root.duplicate_name(folder_name):#Verificamos que no exista una carpeta con ese mismo nombre
                         print("El nombre ya existe, vuelve a intentarlo con otro\n")
                     else:
                         folder.add_folder(folder_name)
@@ -235,8 +251,8 @@ Tienes las siguientes opciones:
             print("No puedes cambiarle el nombre a la carpeta raiz, vuelve a intentarlo con otro")
         else:
             new_folder_name = input(f"Ingrese el nuevo nombre para la carpeta {folder.name}: ")
-            if folder.duplicate_name(new_folder_name):#Verificamos que no exista una carpeta con ese mismo nombre
-                    print("El nombre de esa carpeta ya existe, vuelve a intentarlo con otro\n")
+            if root.duplicate_name(new_folder_name):#Verificamos que no exista una carpeta con ese mismo nombre (OJO, debe preguntarse desde la raiz)
+                print("El nombre de esa carpeta ya existe, vuelve a intentarlo con otro\n")
             else:
                 folder.name = new_folder_name
                 print("El nombre de la carpeta ha cambiado correctamente!")
@@ -244,43 +260,71 @@ Tienes las siguientes opciones:
 
     def edit_file(self):
         root = tree.root.value
-        current_folder = input("Ingrese el nombre de la carpeta donde está el archivo: ")
-        folder = root.find_node_by_name(current_folder)
-        if folder == None:
-            print("La carpeta no existe\n")
-        elif isinstance(folder, File):
-            print(f"{file.name} no es un archivo, es una carpeta, vuelve a intentarlo")
-           
         current_file = input("Ingrese el nombre del archivo que desea modificar: ")
-        file = folder.find_node_by_name(current_file)
+        file = root.find_node_by_name(current_file)
         if file == None:
             print("El archivo no existe\n")
         elif isinstance(file, Folder):
             print(f"{file.name} no es un archivo, es una carpeta, vuelve a intentarlo")
 
         else:
-            new_file_name = input("Ingrese el nuevo nombre del archivo: ")
-            if folder.duplicate_name(new_file_name):
-                print("El nombre de archivo ya existe, vuelve a intentarlo con otro")
-            else:
-                file.name = new_file_name
-                print("El nombre del archivo ha sido cambiado correctamente!")
-                folder.pretty_print_tree(folder.root)
+            
+            while True:
+                edit = input("\nQue desea modificar del archivo? (nombre, extension, peso): ").lower()
+                if edit == "nombre":
+                    new_file_name = input("Ingrese el nuevo nombre del archivo: ")
+                    if root.duplicate_name(new_file_name):
+                        print("El nombre de archivo ya existe, vuelve a intentarlo con otro")
+                    else:
+                        file.name = new_file_name
+                        print("El nombre del archivo ha sido cambiado correctamente!")
+                        root.pretty_print_tree(root.root)
+                        break
+                elif edit == "extension":
+                    new_ext = input("ingrese la nueva extension del archivo")
+                    file.extension = new_ext
+                    print("La extension del archivo ha sido cambiado correctamente!")
+                    break
+                elif edit == "peso":
+                    new_size = input("Ingrese el nuevo peso del archivo: ")
+                    file.size = new_size
+                    print("El peso del archivo ha sido cambiado correctamente!")
+                    break
+                else:
+                    print("Ingrese un atributo del archivo valido, vuelva a intentarlo")
         
     def delete(self):
-        pass
+        root = tree.root.value
+        current_element = input("Ingrese el nombre del archivo o carpeta que desea borrar")
+        element = root.find_node_by_name(current_element)
 
 if __name__ == "__main__":
     print("ARCHIVE MANAGER")
     print("------------------------------------------")
     print()
-    Raiz = input("Nombre de su carpeta principal: ")
+    #Raiz = input("Nombre de su carpeta principal: ")
+    Raiz = "raiz"
     print("------------------------------------------")
     print()
     tree = Folder(Raiz)#Folder hereda de QuadTree
+    tree.add_folder("folder1")
+    tree.add_file("file1","txt","42")
+    #print(tree.root.child1.value.name)
+    tree.root.child1.value.add_folder("folder999")
+
+    #print(tree.root.child1.value.root.child1.value.name)
+    #tree.root.child1.value.root.child1.value.add_folder("folder69")
+    #print(tree.root.child1.value.root.child1.value.root.child1.value.name)
+    #print(tree.root.child1.value.root.child1.value.name)
+    #print(tree.find_node_by_name("folder1"))
+    #print("PRUEBA AQUI: ", (tree.find_node_by_name("folder69").name)) #deberia traerme al objeto de Folder01
+    #print(tree.root.child2)
+
+    #tree.add_folder("folder2")
+    #tree.add_file("file1","txt","42")
     tree.pretty_print_tree(tree.root)# Imprimir en arbol
+    #tree.root.child1.value.pretty_print_tree(tree.root.child1.value.root)
     program = Program(tree)#Arbol del programa
     #Inicio del flujo
     program.show_menu()
 
-    #tree.add_folder("test")# Prueba de añadir carpeta
