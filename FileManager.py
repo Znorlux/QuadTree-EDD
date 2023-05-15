@@ -166,7 +166,7 @@ Tienes las siguientes opciones:
 2) Añadir un archivo
 3) Editar el nombre una carpeta
 4) Modificar archivo de una carpeta
-5) Eliminar
+5) Entrar en una carpeta
 6) Salir
     """)
         self.get_menu_answer()
@@ -189,12 +189,11 @@ Tienes las siguientes opciones:
             self.edit_file()
 
         elif answer == "5":
-            self.delete()
-
-        elif answer == "6":
-          print("chao")
-          return
+            self.access_folder()
         
+        elif answer == "6":
+            print("chao")
+            return
         self.show_menu()
 
     def add_folder(self):
@@ -292,11 +291,21 @@ Tienes las siguientes opciones:
                     break
                 else:
                     print("Ingrese un atributo del archivo valido, vuelva a intentarlo")
+
+    def access_folder(self):
+        folder_name = input("Ingrese el nombre de la carpeta a la que desea entrar: ")
+        folder = self.tree.root.value.find_node_by_name(folder_name)
         
-    def delete(self):
-        root = tree.root.value
-        current_element = input("Ingrese el nombre del archivo o carpeta que desea borrar")
-        element = root.find_node_by_name(current_element)
+        if folder is None:
+            print("La carpeta no existe\n")
+        if isinstance(folder, File):
+            print(f"No es una carpeta, es un archivo\n")
+        else:
+            print("------------------------------------------")
+            print()
+            folder.pretty_print_tree(folder.root)
+        print()
+        
 
 if __name__ == "__main__":
     print("ARCHIVE MANAGER")
