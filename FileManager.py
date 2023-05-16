@@ -46,6 +46,14 @@ class QuadTree:
         if nodes is not None:
             self.add_node(value, nodes)
 
+    def get_node_icon(self, node):
+        if isinstance(node, Folder):
+            return "📁"  # Emoji para carpeta
+        elif isinstance(node, File):
+            return "📄"  # Emoji para archivo
+        else:
+            return ""
+
     def pretty_print_tree(self, node, linea="", is_left=False):
         if self.root is None:
             print("Empty Tree")
@@ -59,7 +67,7 @@ class QuadTree:
             self.pretty_print_tree(node.child3, linea + ("│   " if is_left else "    "), False)
 
         #Carpeta principal
-        print(linea + ("└── " if is_left else "┌── ") + str(node.value.name))
+        print(linea + ("└── " if is_left else "┌── ") + str(node.value.name) + " " + self.get_node_icon(node.value))
 
         #Hijo 2 (izquierdo)
         if node.child2:
@@ -313,7 +321,7 @@ Tienes las siguientes opciones:
             print()
 
     def go_back(self):
-        if len(self.folder_stack) > 1:  # Verificar si hay al menos 2 elementos en la pila (carpeta raíz y otra carpeta)
+        if len(self.folder_stack) > 1:  # Verificar si hay al menos 2 elementos en la pila
             self.folder_stack.pop()  # Eliminar la carpeta actual de la pila
             previous_folder = self.folder_stack[-1]  # Obtener la carpeta anterior en la pila
             print("------------------------------------------")
