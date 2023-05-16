@@ -50,7 +50,7 @@ class QuadTree:
         if isinstance(node, Folder):
             return "📁"  # Emoji para carpeta
         elif isinstance(node, File):
-            return "📄"  # Emoji para archivo
+            return "📄" # Emoji para archivo
         else:
             return ""
 
@@ -336,15 +336,15 @@ if __name__ == "__main__":
     print("ARCHIVE MANAGER")
     print("------------------------------------------")
     print()
-    #Raiz = input("Nombre de su carpeta principal: ")
-    Raiz = "raiz"
+    Raiz = input("Nombre de su carpeta principal: ")
+    #Raiz = "raiz"
     print("------------------------------------------")
     print()
     tree = Folder(Raiz)#Folder hereda de QuadTree
-    tree.add_folder("folder1")
-    tree.add_file("file1","txt","42")
+    #tree.add_folder("folder1")
+    #tree.add_file("file1","txt","42")
     #print(tree.root.child1.value.name)
-    tree.root.child1.value.add_folder("folder999")
+    #tree.root.child1.value.add_folder("folder999")
 
     #print(tree.root.child1.value.root.child1.value.name)
     #tree.root.child1.value.root.child1.value.add_folder("folder69")
