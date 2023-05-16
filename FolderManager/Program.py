@@ -1,4 +1,3 @@
-from Program import *
 from QuadTree import *
 
 class Program:
