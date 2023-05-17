@@ -76,7 +76,7 @@ class QuadTree:
         #Hijo 1 (izquierdo)
         if node.child1:
             self.pretty_print_tree(node.child1, linea + ("    " if is_left else "│   "), True)
-        
+                
     def find_node_by_name(self, name, node=None):
         if node is None:
             node = self.root
